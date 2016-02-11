@@ -6,6 +6,7 @@
 	"page": 1,
 	"last_page": "last",
 	"per_page": 100,
+	"query": "type=all",
 	"method": "GET",
 	"useragent": "https://github.com/kgryte/github-org-repos",
 	"accept": "application/vnd.github.v3+json"

@@ -233,3 +233,36 @@ tape( 'function returns a function which supports providing both `token` and `or
 		t.end();
 	}
 });
+
+tape( 'function returns a function which supports specifying the type of repositories to return', function test( t ) {
+	var expected;
+	var factory;
+	var opts;
+	var get;
+
+	factory = proxyquire( './../lib/factory.js', {
+		'@kgryte/github-get': resolve
+	});
+
+	expected = data;
+
+	opts = getOpts();
+	opts.type = 'forks';
+
+	get = factory( opts, done );
+	get();
+
+	function resolve( opts, clbk ) {
+		t.equal( opts.query, 'type=forks', 'equal type' );
+		setTimeout( onTimeout, 0 );
+		function onTimeout() {
+			clbk( null, data, info );
+		}
+	}
+
+	function done( error, data ) {
+		assert.deepEqual( data, expected );
+		t.ok( true, 'deep equal' );
+		t.end();
+	}
+});

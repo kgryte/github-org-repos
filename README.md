@@ -47,6 +47,7 @@ function clbk( error, results, info ) {
 
 The `function` accepts the following `options`:
 *	__org__: Github organization name (*required*).
+* 	__type__: repository [type][github-org-repos]; e.g., `forks`, `public`, `private`, etc. Default: `'all'`.
 *	__token__: Github [access token][github-token].
 *	__useragent__: [user agent][github-user-agent] `string`.
 
@@ -67,6 +68,17 @@ To specify a [user agent][github-user-agent], set the `useragent` option.
 var opts = {
 	'org': 'math-io',
 	'useragent': 'hello-github!'
+};
+
+repos( opts, clbk );
+```
+
+To return repositories of a particular [type][github-org-repos], set the `type` option.
+
+``` javascript
+var opts = {
+	'org': 'math-io',
+	'type': 'forks'
 };
 
 repos( opts, clbk );
@@ -282,6 +294,7 @@ Copyright &copy; 2016. Athan Reines.
 
 [github-get]: https://github.com/kgryte/github-get
 [github-repos]: https://developer.github.com/v3/repos/
+[github-org-repos]: https://developer.github.com/v3/repos/#list-organization-repositories
 [github-api]: https://developer.github.com/v3/
 [github-token]: https://github.com/settings/tokens/new
 [github-oauth2]: https://developer.github.com/v3/#oauth2-token-sent-in-a-header

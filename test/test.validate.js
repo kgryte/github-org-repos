@@ -67,6 +67,32 @@ tape( 'an `org` option is required', function test( t ) {
 	t.end();
 });
 
+tape( 'if provided a `type` option which is not a primitive string, the function returns a type error', function test( t ) {
+	var values;
+	var err;
+	var i;
+
+	values = [
+		5,
+		NaN,
+		null,
+		undefined,
+		true,
+		[],
+		{},
+		function(){}
+	];
+
+	for ( i = 0; i < values.length; i++ ) {
+		err = validate( {}, {
+			'org': 'math-io',
+			'type': values[i]
+		});
+		t.ok( err instanceof TypeError, 'returns type error when provided ' + values[i] );
+	}
+	t.end();
+});
+
 tape( 'if provided a `token` option which is not a primitive string, the function returns a type error', function test( t ) {
 	var values;
 	var err;
@@ -125,6 +151,7 @@ tape( 'the function returns `null` if all options are valid', function test( t )
 	err = validate( {}, {
 		'token': 'abcdefg',
 		'org': 'math-io',
+		'type': 'forks',
 		'useragent': 'beeper-booper'
 	});
 	t.equal( err, null, 'returns null' );
