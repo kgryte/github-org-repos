@@ -51,7 +51,7 @@
     "url": "https://github.com/kgryte/github-org-repos/issues"
   },
   "dependencies": {
-    "@kgryte/github-get": "^3.0.3",
+    "@kgryte/github-get": "^3.0.6",
     "minimist": "^1.2.0",
     "update-notifier": "^0.6.0",
     "utils-merge2": "^1.0.0",
