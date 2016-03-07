@@ -1,6 +1,6 @@
 {
   "name": "github-org-repos",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Get meta data for all repositories belonging to an organization.",
   "author": {
     "name": "Athan Reines",
