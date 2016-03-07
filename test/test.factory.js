@@ -82,24 +82,28 @@ tape( 'function returns a function', function test( t ) {
 tape( 'function returns a function which returns an error to a provided callback if an error is encountered when fetching org repos', function test( t ) {
 	var factory;
 	var opts;
-	var get;
+	var fcn;
 
 	factory = proxyquire( './../lib/factory.js', {
-		'@kgryte/github-get': resolve
+		'@kgryte/github-get': {
+			'factory': get
+		}
 	});
 
 	opts = getOpts();
-	get = factory( opts, done );
-	get();
+	fcn = factory( opts, done );
+	fcn();
 
-	function resolve( opts, clbk ) {
-		setTimeout( onTimeout, 0 );
-		function onTimeout() {
-			clbk({
-				'status': 404,
-				'message': 'beep'
-			});
-		}
+	function get( opts, clbk ) {
+		return function get() {
+			setTimeout( onTimeout, 0 );
+			function onTimeout() {
+				clbk({
+					'status': 404,
+					'message': 'beep'
+				});
+			}
+		};
 	}
 
 	function done( error ) {
@@ -113,23 +117,27 @@ tape( 'function returns a function which returns response data to a provided cal
 	var expected;
 	var factory;
 	var opts;
-	var get;
+	var fcn;
 
 	factory = proxyquire( './../lib/factory.js', {
-		'@kgryte/github-get': resolve
+		'@kgryte/github-get': {
+			'factory': get
+		}
 	});
 
 	expected = data;
 
 	opts = getOpts();
-	get = factory( opts, done );
-	get();
+	fcn = factory( opts, done );
+	fcn();
 
-	function resolve( opts, clbk ) {
-		setTimeout( onTimeout, 0 );
-		function onTimeout() {
-			clbk( null, data, info );
-		}
+	function get( opts, clbk ) {
+		return function get() {
+			setTimeout( onTimeout, 0 );
+			function onTimeout() {
+				clbk( null, data, info );
+			}
+		};
 	}
 
 	function done( error, data ) {
@@ -143,23 +151,27 @@ tape( 'function returns a function which returns rate limit info to a provided c
 	var expected;
 	var factory;
 	var opts;
-	var get;
+	var fcn;
 
 	factory = proxyquire( './../lib/factory.js', {
-		'@kgryte/github-get': resolve
+		'@kgryte/github-get': {
+			'factory': get
+		}
 	});
 
 	expected = info;
 
 	opts = getOpts();
-	get = factory( opts, done );
-	get();
+	fcn = factory( opts, done );
+	fcn();
 
-	function resolve( opts, clbk ) {
-		setTimeout( onTimeout, 0 );
-		function onTimeout() {
-			clbk( null, data, info );
-		}
+	function get( opts, clbk ) {
+		return function get() {
+			setTimeout( onTimeout, 0 );
+			function onTimeout() {
+				clbk( null, data, info );
+			}
+		};
 	}
 
 	function done( error, data, info ) {
@@ -173,10 +185,12 @@ tape( 'function returns a function which supports providing only an `org` option
 	var expected;
 	var factory;
 	var opts;
-	var get;
+	var fcn;
 
 	factory = proxyquire( './../lib/factory.js', {
-		'@kgryte/github-get': resolve
+		'@kgryte/github-get': {
+			'factory': get
+		}
 	});
 
 	expected = data;
@@ -184,14 +198,16 @@ tape( 'function returns a function which supports providing only an `org` option
 	opts = getOpts();
 	delete opts.token;
 
-	get = factory( opts, done );
-	get();
+	fcn = factory( opts, done );
+	fcn();
 
-	function resolve( opts, clbk ) {
-		setTimeout( onTimeout, 0 );
-		function onTimeout() {
-			clbk( null, data, info );
-		}
+	function get( opts, clbk ) {
+		return function get() {
+			setTimeout( onTimeout, 0 );
+			function onTimeout() {
+				clbk( null, data, info );
+			}
+		};
 	}
 
 	function done( error, data ) {
@@ -205,10 +221,12 @@ tape( 'function returns a function which supports providing both `token` and `or
 	var expected;
 	var factory;
 	var opts;
-	var get;
+	var fcn;
 
 	factory = proxyquire( './../lib/factory.js', {
-		'@kgryte/github-get': resolve
+		'@kgryte/github-get': {
+			'factory': get
+		}
 	});
 
 	expected = data;
@@ -216,15 +234,17 @@ tape( 'function returns a function which supports providing both `token` and `or
 	opts = getOpts();
 	opts.token = 'boopbeep';
 	opts.org = 'math-io';
-	
-	get = factory( opts, done );
-	get();
 
-	function resolve( opts, clbk ) {
-		setTimeout( onTimeout, 0 );
-		function onTimeout() {
-			clbk( null, data, info );
-		}
+	fcn = factory( opts, done );
+	fcn();
+
+	function get( opts, clbk ) {
+		return function get() {
+			setTimeout( onTimeout, 0 );
+			function onTimeout() {
+				clbk( null, data, info );
+			}
+		};
 	}
 
 	function done( error, data ) {
@@ -238,10 +258,12 @@ tape( 'function returns a function which supports specifying the type of reposit
 	var expected;
 	var factory;
 	var opts;
-	var get;
+	var fcn;
 
 	factory = proxyquire( './../lib/factory.js', {
-		'@kgryte/github-get': resolve
+		'@kgryte/github-get': {
+			'factory': get
+		}
 	});
 
 	expected = data;
@@ -249,15 +271,17 @@ tape( 'function returns a function which supports specifying the type of reposit
 	opts = getOpts();
 	opts.type = 'forks';
 
-	get = factory( opts, done );
-	get();
+	fcn = factory( opts, done );
+	fcn();
 
-	function resolve( opts, clbk ) {
+	function get( opts, clbk ) {
 		t.equal( opts.query, 'type=forks', 'equal type' );
-		setTimeout( onTimeout, 0 );
-		function onTimeout() {
-			clbk( null, data, info );
-		}
+		return function get() {
+			setTimeout( onTimeout, 0 );
+			function onTimeout() {
+				clbk( null, data, info );
+			}
+		};
 	}
 
 	function done( error, data ) {
